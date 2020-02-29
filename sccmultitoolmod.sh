@@ -1,5 +1,6 @@
 #!/bin/bash
 shopt -s expand_aliases
+source ~/.bashrc
 #Coin info #update here#
 version='1.0.4.0'
 coinname=stakecube
