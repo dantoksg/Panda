@@ -1,5 +1,4 @@
 #!/bin/bash
-#import mcarper alias
 #Coin info #update here#
 version='1.0.4.0'
 coinname=stakecube
@@ -290,7 +289,7 @@ case $start in
         cd /home/$i
         echo "Start repair for $i..."
         #wget $snapshot -O ${coindir}.zip &>/dev/null
-        cp /root/StakeCubeCore.zip /home/$alias/
+        cp /root/StakeCubeCore.zip /home/$i/
 	find /home/$i/.${coindir}/* ! -name "wallet.dat" ! -name "*.conf" -delete
         unzip ${coindir}.zip &>/dev/null
         rm ${coindir}.zip
@@ -393,12 +392,11 @@ case $start in
     echo "Please enter MN alias name and press [ENTER]:"
     read -p "> " alias
     echo "Start add nodes..."
-    #$alias addnode 95.179.165.19 add
-    #$alias addnode 209.250.224.166 add
-    #$alias addnode 108.61.212.198 add
-    #$alias addnode 78.141.211.79 add
-    #$alias addnode 95.179.209.111 add
-    $alias addnode 164.68.103.53 add
+    $alias addnode 95.179.165.19 add
+    $alias addnode 209.250.224.166 add
+    $alias addnode 108.61.212.198 add
+    $alias addnode 78.141.211.79 add
+    $alias addnode 95.179.209.111 add
     echo "done..."
     exit
     ;;
