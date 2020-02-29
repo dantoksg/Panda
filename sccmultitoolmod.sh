@@ -1,4 +1,5 @@
 #!/bin/bash
+shopt -s expand_aliases
 #Coin info #update here#
 version='1.0.4.0'
 coinname=stakecube
