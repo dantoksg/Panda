@@ -70,7 +70,7 @@ USE_DROPBOX_BLOCKS_N_CHAINS=0
 # Cycle Daemon
 DAEMON_CYCLE=0
 # Daemon Counter Disable
-DAEMON_CONNECTIONS=0
+DAEMON_CONNECTIONS=1
 # Fallback Blockcount
 BLOCKCOUNT_FALLBACK_VALUE=0
 # Multiple on single IP.
