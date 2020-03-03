@@ -33,12 +33,7 @@ BLOCKTIME=120
 # Explorer URL
 EXPLORER_URL='https://www.coinexplorer.net/api/v1/SCC/'
 EXPLORER_SLEEP=1
-# Cycle Daemon on first start
-DAEMON_CYCLE=0
-# Disable Fast Sync
-FAST_SYNC=0
-# First SYNC
-FIRST_SYNC=0
+
 
 ASCII_ART () {
 echo -e "\\e[0m"
@@ -87,6 +82,11 @@ MINI_MONITOR_MN_QUEUE=1
 MINI_MONITOR_MN_COUNT_JSON=1
 # Disable Wait MN SYNC
 FIRST_SYNC=0
+# Cycle Daemon on first start
+DAEMON_CYCLE=0
+# Disable Fast Sync
+FAST_SYNC=0
+
 
 # Discord User Info
 # @mcarper#0918
