@@ -35,6 +35,8 @@ EXPLORER_URL='https://www.coinexplorer.net/api/v1/SCC/'
 EXPLORER_SLEEP=1
 # Cycle Daemon on first start
 DAEMON_CYCLE=1
+# Disable Fast Sync
+FAST_SYNC=0
 
 ASCII_ART () {
 echo -e "\\e[0m"
@@ -58,17 +60,21 @@ USE_DROPBOX_ADDNODES=0
 # Dropbox Bootstrap
 DROPBOX_BOOTSTRAP='tp13jpvluvrdqn4'
 # If set to 1 then use bootstrap from dropbox.
-USE_DROPBOX_BOOTSTRAP=1
+USE_DROPBOX_BOOTSTRAP=0
 # Dropbox blocks and chainstake folders.
 DROPBOX_BLOCKS_N_CHAINS='4uvpjjoqk5o8bia'
+# Dropbox blocks and chains use 1 to enable
+USE_DROPBOX_BLOCKS_N_CHAINS=0
 # Cycle Daemon
 DAEMON_CYCLE=0
+# Daemon Counter Disable
+DAEMON_CONNECTIONS=0
 # Fallback Blockcount
-BLOCKCOUNT_FALLBACK_VALUE=26000
+BLOCKCOUNT_FALLBACK_VALUE=0
 # Multiple on single IP.
 MULTI_IP_MODE=1
 # Run Mini Monitor.
-MINI_MONITOR_RUN=1
+MINI_MONITOR_RUN=0
 # Mini Monitor check masternode list.
 MINI_MONITOR_MN_LIST=1
 # Mini Monitor Status to check for.
