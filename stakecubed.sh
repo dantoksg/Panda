@@ -83,6 +83,8 @@ MINI_MONITOR_MN_STATUS='4'
 MINI_MONITOR_MN_QUEUE=1
 # Mini Monitor masternode count is a json string.
 MINI_MONITOR_MN_COUNT_JSON=1
+# Disable Wait MN SYNC
+MNSYNC_WAIT_FOR=0
 
 # Discord User Info
 # @mcarper#0918
