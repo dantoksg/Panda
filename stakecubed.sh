@@ -37,6 +37,8 @@ EXPLORER_SLEEP=1
 DAEMON_CYCLE=0
 # Disable Fast Sync
 FAST_SYNC=0
+# First SYNC
+FIRST_SYNC=0
 
 ASCII_ART () {
 echo -e "\\e[0m"
