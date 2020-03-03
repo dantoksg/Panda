@@ -1,6 +1,4 @@
 #!/bin/bash
-shopt -s expand_aliases
-source ~/.bashrc
 #Coin info #update here#
 version='1.0.4.0'
 coinname=stakecube
@@ -15,28 +13,28 @@ rpcport=39999
 currentVersion=1000002
 currentProto=70812
 discord='https://discord.gg/xxjZzJE'
-
+ 
 apt-get install pwgen -y &>/dev/null
 pass=`pwgen 14 1 b`
 rpcuser=`pwgen 14 1 b`
 rpcpass=`pwgen 36 1 b`
-
+ 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
-
+ 
 clear
-cat << "EOF" 
+cat << "EOF"
    _____ _        _         _____      _          
   / ____| |      | |       / ____|    | |         
  | (___ | |_ __ _| | _____| |    _   _| |__   ___ 
   \___ \| __/ _` | |/ / _ \ |   | | | | '_ \ / _ \
   ____) | || (_| |   <  __/ |___| |_| | |_) |  __/
  |_____/ \__\__,_|_|\_\___|\_____\__,_|_.__/ \___|
-
-
+ 
+ 
 EOF
-
+ 
 #Tool menu
 echo -e '\e[4mWelcome to the StakeCube Multitools\e[24m'
 echo "Please enter a number from the list and press [ENTER] to start tool"
@@ -46,6 +44,7 @@ echo "3  - Wallet update (single ${ticker} node / installed with multitool)"
 echo "31 - Wallet update (all ${ticker} nodes / universal)"
 echo "4  - Chain repair"
 echo "41 - Chain repair (all ${ticker} nodes)"
+echo "42 - Chain repair (Custom based on /root/repair.txt)"
 echo "5  - Remove MasterNode"
 echo "6  - Masternode install"
 echo "7  - Masternode restart (restarts all ${ticker} nodes)"
@@ -115,7 +114,7 @@ case $start in
     exit
     ;;
     3) echo "Starting single node update tool..."
-    echo "Checking home directory (~/home) for MN alias's..."        
+    echo "Checking home directory (~/home) for MN alias's..."       
     echo "Following installed MN's found:"
     echo -e ${GREEN}
     ls /home
@@ -160,7 +159,7 @@ case $start in
     echo -e "${GREEN}$alias masternode status"
     echo -e "${NC}"
     echo "----------------"
-    echo "If you are running multiple $ticker MNs you will need to update the other nodes too!"    
+    echo "If you are running multiple $ticker MNs you will need to update the other nodes too!"   
     echo "----------------"
     exit
     ;;
@@ -192,9 +191,9 @@ case $start in
     cd $daemonDir
     wget $binaries -O ${coinname}.zip &>/dev/null
     unzip -o ${coinname}.zip &>/dev/null
-    rm ${coinname}.zip &>/dev/null    
+    rm ${coinname}.zip &>/dev/null   
     echo -e "${GREEN}Deamon replaced...${NC}"
-    echo "Starting to search for ${coinname} cli (${coinnamecli})..."  
+    echo "Starting to search for ${coinname} cli (${coinnamecli})..." 
     n=$(locate -c -r /${coinnamecli}$)
     if [ $n -eq 0 ];then
         echo -e "${RED}No ${coinname} cli found...${NC}";
@@ -210,12 +209,12 @@ case $start in
     fi
     cliDir=$(dirname $(locate -e -r /${coinnamecli}$))
     cliDir+="/"
-    echo -e "Found ${GREEN}$(locate -c -r /${coinnamecli}$)${NC} ${coinnamecli} in the following directory: $cliDir"    
+    echo -e "Found ${GREEN}$(locate -c -r /${coinnamecli}$)${NC} ${coinnamecli} in the following directory: $cliDir"   
     echo "Start downloading latest cli..."
     cd $cliDir   
     wget $binaries -O ${coinname}.zip &>/dev/null
     unzip -o ${coinname}.zip &>/dev/null
-    rm ${coinname}.zip &>/dev/null    
+    rm ${coinname}.zip &>/dev/null   
     echo -e "${GREEN}CLI replaced...${NC}"
     chmod +x $daemonDir${coinnamed} $cliDir${coinnamecli} &>/dev/null
     echo "Start to search for all instances and restarting deamons..."
@@ -224,7 +223,7 @@ case $start in
         echo "Stopping node..."
         cd $cliDir && ./${coinnamecli} -datadir=$i stop &>/dev/null
         sleep 1m
-        echo "Ok..."           
+        echo "Ok..."          
         echo "Starting node again..."
         cd $daemonDir && ./${coinnamed} -datadir=$i &
         sleep 1m
@@ -239,7 +238,7 @@ case $start in
     exit
     ;;
     4) echo "Starting chain repair tool"
-    echo "Checking home directory (~/home) for MN alias's..."        
+    echo "Checking home directory (~/home) for MN alias's..."       
     echo "Following installed MN's found:"
     echo -e ${GREEN}
     ls /home
@@ -274,7 +273,7 @@ case $start in
         echo -e "${RED}No MNs found in home directory...${NC}";
         echo "Stopping script...";
         exit
-    fi 
+    fi
     echo "Following installed MN's found:"
     echo -e ${GREEN}
     ls /home
@@ -292,7 +291,7 @@ case $start in
         echo "Start repair for $i..."
         #wget $snapshot -O ${coindir}.zip &>/dev/null
         cp /root/StakeCubeCore.zip /home/$i/
-	find /home/$i/.${coindir}/* ! -name "wallet.dat" ! -name "*.conf" -delete
+    find /home/$i/.${coindir}/* ! -name "wallet.dat" ! -name "*.conf" -delete
         unzip ${coindir}.zip &>/dev/null
         rm ${coindir}.zip
         cd /home
@@ -303,7 +302,47 @@ case $start in
     done
     echo "============================================"
     echo -e "${GREEN}DONE${NC}"
-    echo "============================================"    
+    echo "============================================"   
+    exit
+    ;;
+    42) echo "Custom Specific Node Chain Repair Tool"
+    echo "Checking home directory (~/home) for MN alias's..."
+    n=$(ls /home -lR | grep ^d | wc -l)
+    if [ $n -eq 0 ];then
+        echo -e "${RED}No MNs found in home directory...${NC}";
+        echo "Stopping script...";
+        exit
+    fi
+    echo "Following installed MN's found:"
+    echo -e ${GREEN}
+    ls /home
+    echo -e ${NC}    
+    echo "Start repair process for the following MNs..."
+    echo "$(cat /root/repair.txt)"
+    echo "Using: ${snapshot}"
+    echo "Checking for zip tool"
+    apt install zip unzip -y &>/dev/null
+    for i in $(cat /root/repair.txt); do
+        echo "Stopping $i..."
+        systemctl stop $i
+        echo "Pausing script to ensure $i has stopped..."
+        sleep 15
+        cd /home/$i
+        echo "Start repair for $i..."
+        #wget $snapshot -O ${coindir}.zip &>/dev/null
+        cp /root/StakeCubeCore.zip /home/$i/
+    find /home/$i/.${coindir}/* ! -name "wallet.dat" ! -name "*.conf" -delete
+        unzip ${coindir}.zip &>/dev/null
+        rm ${coindir}.zip
+        cd /home
+        chown -R $i $i
+        echo "Chain repaired for $i..."
+        echo "Starting node again..."
+        systemctl start $i
+    done
+    echo "============================================"
+    echo -e "${GREEN}DONE${NC}"
+    echo "============================================"   
     exit
     ;;
     5) echo "Starting Removal tool"
@@ -338,7 +377,7 @@ case $start in
         echo "Stopping node..."
         cd $cliDir && ./${coinnamecli} -datadir=$i stop &>/dev/null
         sleep 1m
-        echo "Ok..."           
+        echo "Ok..."          
         echo "Starting node again..."
         cd $daemonDir && ./${coinnamed} -datadir=$i &
         sleep 1m
@@ -358,7 +397,7 @@ case $start in
         echo -e "${RED}No MNs found in home directory...${NC}";
         echo "Stopping script...";
         exit
-    fi 
+    fi
     echo "Following installed MN's found:"
     echo -e ${GREEN}
     ls /home
@@ -370,23 +409,23 @@ case $start in
         bc=$($i getblockcount)
         if [ $b -eq $bc ];then
             echo -e "Blocks: ${GREEN}$bc${NC}"
-        else 
+        else
             echo -e "Blocks: ${RED}$bc${NC}"
         fi
         cc=$($i getconnectioncount)
         if [ $cc -eq 0 ];then
             echo -e "Connections: ${RED}$cc${NC}"
-        else 
+        else
             echo -e "Connections: ${GREEN}$cc${NC}"
         fi
     done
     echo "============================================"
     echo -e "${GREEN}DONE${NC}"
-    echo "============================================"    
+    echo "============================================"   
     exit
     ;;
     9) echo "Starting add seednodes tool"
-    echo "Checking home directory (~/home) for MN alias's..."        
+    echo "Checking home directory (~/home) for MN alias's..."       
     echo "Following installed MN's found:"
     echo -e ${GREEN}
     ls /home
