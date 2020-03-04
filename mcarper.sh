@@ -7171,7 +7171,7 @@ ${TXID} ${OUTPUTIDX}"
     echo "${OUTPUT}" | sed '/^[[:space:]]*$/d'
   )
 
-  elif [ "${ARG9}" == "sync" ]
+  elif [ "${ARG9}" == "sync1" ]
   then
   (
     local i
