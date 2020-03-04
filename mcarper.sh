@@ -9243,7 +9243,7 @@ fi
 echo "Let the script run and keep your terminal open."
 echo
 stty sane 2>/dev/null
-read -r -t 10 -p "Hit ENTER to continue or wait 10 seconds" 2>&1
+read -r -t 1 -p "Hit ENTER to continue or wait 10 seconds" 2>&1
 echo
 sudo true >/dev/null 2>&1
 
