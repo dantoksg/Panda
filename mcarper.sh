@@ -9290,7 +9290,7 @@ ALL_DAEMON_USERS=$( echo "${ALL_DAEMON_USERS}" | sort )
 BOTH_LISTS=$( sort <( echo "${RUNNING_DAEMON_USERS}" | tr " " '\n' ) <( echo "${ALL_DAEMON_USERS}" | tr " " '\n' )| uniq -d | grep -Ev "^$" )
 
 # Make sure daemon has the correct block count.
-while read -r GOOD_MN_USRNAME
+#while read -r GOOD_MN_USRNAME
 #do
 #  if [[ -z "${GOOD_MN_USRNAME}" ]] || [[ "${GOOD_MN_USRNAME}" == 'root' ]]
 #  then
@@ -9369,7 +9369,7 @@ while read -r GOOD_MN_USRNAME
 #    stty sane 2>/dev/null
 #   read -r -t 10 -p "Hit ENTER to continue or wait 10 seconds" 2>&1
 #  fi
-done <<< "${BOTH_LISTS}"
+#done <<< "${BOTH_LISTS}"
 
 if [[ "${#PROJECT_DIR}" -lt 4 ]]
 then
