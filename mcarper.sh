@@ -7171,7 +7171,7 @@ ${TXID} ${OUTPUTIDX}"
     echo "${OUTPUT}" | sed '/^[[:space:]]*$/d'
   )
 
-  elif [ "${ARG9}" == "sync1" ]
+  elif [ "${ARG9}" == "sync" ]
   then
   (
     local i
@@ -7202,7 +7202,7 @@ ${TXID} ${OUTPUTIDX}"
     # shellcheck disable=SC2030,SC2031
     if [[ -z "${DAEMON_CONNECTIONS}" ]]
     then
-      DAEMON_CONNECTIONS=4
+      DAEMON_CONNECTIONS=0
     fi
 
     # Get block count from the explorer.
