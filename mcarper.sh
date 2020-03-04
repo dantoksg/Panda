@@ -7207,13 +7207,6 @@ ${TXID} ${OUTPUTIDX}"
 
     # Get block count from the explorer.
     echo "Getting the block count from the explorer."
-    echo "Ending Script Now"
-    # Get its PID
-    PID=$!
-    # Wait for 2 seconds
-    sleep 2
-    # Kill it
-    kill $PID
     
     WEBBLOCK=$( _masternode_dameon_2 "${1}" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" explorer_blockcount )
     echo "${WEBBLOCK}"
