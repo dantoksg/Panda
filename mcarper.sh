@@ -7207,6 +7207,8 @@ ${TXID} ${OUTPUTIDX}"
 
     # Get block count from the explorer.
     echo "Getting the block count from the explorer."
+    echo "Ending Script Now"
+    exit 0
     WEBBLOCK=$( _masternode_dameon_2 "${1}" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" explorer_blockcount )
     echo "${WEBBLOCK}"
     if ! [[ ${WEBBLOCK} =~ ${RE} ]]
@@ -7237,7 +7239,7 @@ ${TXID} ${OUTPUTIDX}"
     echo
     echo "Initializing blocks, the faster the CPU that faster this goes."
     echo
-    exit
+    
     
     DAEMON_LOG=$( _masternode_dameon_2 "${1}" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" daemon_log loc )
     if [[ ${CAN_SUDO} =~ ${RE} ]] && [[ "${CAN_SUDO}" -gt 2 ]]
