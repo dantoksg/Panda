@@ -9290,86 +9290,86 @@ ALL_DAEMON_USERS=$( echo "${ALL_DAEMON_USERS}" | sort )
 BOTH_LISTS=$( sort <( echo "${RUNNING_DAEMON_USERS}" | tr " " '\n' ) <( echo "${ALL_DAEMON_USERS}" | tr " " '\n' )| uniq -d | grep -Ev "^$" )
 
 # Make sure daemon has the correct block count.
-#while read -r GOOD_MN_USRNAME
-#do
-#  if [[ -z "${GOOD_MN_USRNAME}" ]] || [[ "${GOOD_MN_USRNAME}" == 'root' ]]
-#  then
-#    break
-#  fi
-#  echo -n "Checking ${GOOD_MN_USRNAME}."
-#  if [[ $( "${GOOD_MN_USRNAME}" blockcheck 2>/dev/null | sed '/^[[:space:]]*$/d' | wc -l ) -eq 1 ]]
-#  then
-#    echo " It is good!"
-#    if [[ "${FAST_SYNC}" -eq 1 ]]
-#    then
-#      continue
-#    fi
-#    # Generate key and stop master node.
-#    if [ -z "${MNKEY}" ] && [[ "${NO_MN}" -eq 0 ]]
-#    then
-#      echo "Generate ${MASTERNODE_GENKEY_COMMAND} on ${GOOD_MN_USRNAME}"
-#      MNKEY=$( "${GOOD_MN_USRNAME}" "${MASTERNODE_GENKEY_COMMAND}" )
-#    fi
-#
-#    # If daemon is not slow OR we do not have BLOCKS_N_CHAINS then stop n copy.
-#    if [[ "${SLOW_DAEMON_START}" -eq 0 ]] || [[ -z "${DROPBOX_BLOCKS_N_CHAINS}" ]]
-#    then
-#      # Copy this Daemon.
-#      echo "Stopping ${GOOD_MN_USRNAME}"
-#      "${GOOD_MN_USRNAME}" disable >/dev/null 2>&1
-#
-#      if [[ ${ARG6} == 'y' ]]
-#      then
-#        echo "Waiting for ${GOOD_MN_USRNAME} to shutdown"
-#      fi
-#      while [[ $( sudo lslocks -n -o COMMAND,PATH | grep -cF "${GOOD_MN_USRNAME}/${DIRECTORY}" ) -ne 0 ]]
-#      do
-#        if [[ ${ARG6} == 'y' ]]
-#        then
-#          printf "."
-#        else
-#          echo -e "\\r${SP:i++%${#SP}:1} Waiting for ${GOOD_MN_USRNAME} to shutdown \\c"
-#        fi
-#        sleep 0.5
-#      done
-#      echo
-#
-#      echo "Coping /home/${GOOD_MN_USRNAME} to /home/${USRNAME} for faster sync."
-#      sudo rm -rf /home/"${USRNAME:?}"
-#      sudo cp -r /home/"${GOOD_MN_USRNAME}" "/home/${USRNAME}"
-#      sleep 0.1
-#      rm -rf "/home/${USRNAME}/disabled"
-#      if [[ ! -z $( "${GOOD_MN_USRNAME}" pid ) ]]
-#      then
-#        sudo rm -rf /home/"${USRNAME:?}"
-#        sudo mkdir /home/"${USRNAME:?}"
-#        sudo chown -R "${USRNAME}":"${USRNAME}" "/home/${USRNAME}"
-#        continue
-#      fi
-#
-#      echo "Starting ${GOOD_MN_USRNAME}"
-#      "${GOOD_MN_USRNAME}" enable >/dev/null 2>&1
-#      sleep 0.2
-#
-#      FAST_SYNC=1
-#      if [ ! -z "${SKIP_CONFIRM}" ]
-#      then
-#        break
-#     fi
-#   fi
-#
-#  elif [ -z "${SKIP_CONFIRM}" ]
-#  then
-#    echo
-#    echo "System Might be overloaded."
-#   "${GOOD_MN_USRNAME}" blockcheck
-#    echo "This linux box may not have enough resources to run another ${MASTERNODE_NAME} daemon."
-#    echo "ctrl-c to exit this script and fix the broken mn before installing more."
-#    echo
-#    stty sane 2>/dev/null
-#   read -r -t 10 -p "Hit ENTER to continue or wait 10 seconds" 2>&1
-#  fi
-#done <<< "${BOTH_LISTS}"
+while read -r GOOD_MN_USRNAME
+do
+  if [[ "${GOOD_MN_USRNAME}" ]] || [[ "${GOOD_MN_USRNAME}" == 'root' ]]
+  then
+    break
+  fi
+  echo -n "Checking ${GOOD_MN_USRNAME}."
+  if [[ $( "${GOOD_MN_USRNAME}" blockcheck 2>/dev/null | sed '/^[[:space:]]*$/d' | wc -l ) -eq 1 ]]
+  then
+    echo " It is good!"
+    if [[ "${FAST_SYNC}" -eq 1 ]]
+    then
+      continue
+    fi
+    # Generate key and stop master node.
+    if [ -z "${MNKEY}" ] && [[ "${NO_MN}" -eq 0 ]]
+    then
+      echo "Generate ${MASTERNODE_GENKEY_COMMAND} on ${GOOD_MN_USRNAME}"
+      MNKEY=$( "${GOOD_MN_USRNAME}" "${MASTERNODE_GENKEY_COMMAND}" )
+    fi
+
+    # If daemon is not slow OR we do not have BLOCKS_N_CHAINS then stop n copy.
+    if [[ "${SLOW_DAEMON_START}" -eq 0 ]] || [[ -z "${DROPBOX_BLOCKS_N_CHAINS}" ]]
+    then
+      # Copy this Daemon.
+      echo "Stopping ${GOOD_MN_USRNAME}"
+      "${GOOD_MN_USRNAME}" disable >/dev/null 2>&1
+
+      if [[ ${ARG6} == 'y' ]]
+      then
+        echo "Waiting for ${GOOD_MN_USRNAME} to shutdown"
+      fi
+      while [[ $( sudo lslocks -n -o COMMAND,PATH | grep -cF "${GOOD_MN_USRNAME}/${DIRECTORY}" ) -ne 0 ]]
+      do
+        if [[ ${ARG6} == 'y' ]]
+        then
+          printf "."
+        else
+          echo -e "\\r${SP:i++%${#SP}:1} Waiting for ${GOOD_MN_USRNAME} to shutdown \\c"
+        fi
+        sleep 0.5
+      done
+      echo
+
+      echo "Coping /home/${GOOD_MN_USRNAME} to /home/${USRNAME} for faster sync."
+      sudo rm -rf /home/"${USRNAME:?}"
+      sudo cp -r /home/"${GOOD_MN_USRNAME}" "/home/${USRNAME}"
+      sleep 0.1
+      rm -rf "/home/${USRNAME}/disabled"
+      if [[ ! -z $( "${GOOD_MN_USRNAME}" pid ) ]]
+      then
+        sudo rm -rf /home/"${USRNAME:?}"
+        sudo mkdir /home/"${USRNAME:?}"
+        sudo chown -R "${USRNAME}":"${USRNAME}" "/home/${USRNAME}"
+        continue
+      fi
+
+      echo "Starting ${GOOD_MN_USRNAME}"
+      "${GOOD_MN_USRNAME}" enable >/dev/null 2>&1
+      sleep 0.2
+
+      FAST_SYNC=1
+      if [ ! -z "${SKIP_CONFIRM}" ]
+      then
+        break
+     fi
+   fi
+
+  elif [ -z "${SKIP_CONFIRM}" ]
+  then
+    echo
+    echo "System Might be overloaded."
+   "${GOOD_MN_USRNAME}" blockcheck
+    echo "This linux box may not have enough resources to run another ${MASTERNODE_NAME} daemon."
+    echo "ctrl-c to exit this script and fix the broken mn before installing more."
+    echo
+    stty sane 2>/dev/null
+   read -r -t 10 -p "Hit ENTER to continue or wait 10 seconds" 2>&1
+  fi
+done <<< "${BOTH_LISTS}"
 
 if [[ "${#PROJECT_DIR}" -lt 4 ]]
 then
