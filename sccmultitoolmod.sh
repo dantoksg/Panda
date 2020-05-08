@@ -44,6 +44,7 @@ echo "2  - Newserver 8GB swap with Contabo support. REQUIRES RESTART"
 echo "3  - Wallet update (single ${ticker} node / installed with multitool)"
 echo "31 - Wallet update (all ${ticker} nodes / universal)"
 echo "32 - Wallet update (Single Node/PandaMod)"
+echo "33 - Wallet update (All Nodes/PandaMod)"
 echo "4  - Chain repair"
 echo "41 - Chain repair (all ${ticker} nodes)"
 echo "42 - Chain repair (Custom based on /root/repair.txt)"
@@ -261,6 +262,41 @@ case $start in
     systemctl start $alias
     echo "Daemon updated for $alias"
     echo "Please wait for a while.. and then use $alias getinfo to check block height against explorer"
+    exit
+    ;;
+    33) echo "Starting daemon wallet update all tool"
+    echo "Checking home directory (~/home) for MN alias's..."
+    n=$(ls /home -lR | grep ^d | wc -l)
+    if [ $n -eq 0 ];then
+        echo -e "${RED}No MNs found in home directory...${NC}";
+        echo "Stopping script...";
+        exit
+    fi
+    echo "Following installed MN's found:"
+    echo -e ${GREEN}
+    ls /home
+    echo -e ${NC}    
+    echo "Start update wallet process for all MNs..."
+    echo "Using: ${snapshot}"
+    for i in $(ls /home/); do
+        echo "Stopping $i..."
+        systemctl stop $i
+        echo "Pausing script to ensure $i has stopped..."
+        sleep 15
+        cd /home/$i/.local/bin
+        echo "Start upgrade for $i..."
+        cp /root/stakecube-daemon-U16-U18.zip /home/$i/.local/bin/
+        unzip -o ${binaryname}.zip &>/dev/null
+        rm ${coindir}.zip
+        rm ${binaryname}.zip
+        chmod +x $coinnamed $coinnamecli
+        echo "Node upgraded for $i..."
+        echo "Starting node again..."
+        systemctl start $i
+    done
+    echo "============================================"
+    echo -e "${GREEN}DONE${NC}"
+    echo "============================================"   
     exit
     ;;
     4) echo "Starting chain repair tool"
