@@ -287,7 +287,6 @@ case $start in
         echo "Start upgrade for $i..."
         cp /root/stakecube-daemon-U16-U18.zip /home/$i/.local/bin/
         unzip -o ${binaryname}.zip &>/dev/null
-        rm ${coindir}.zip
         rm ${binaryname}.zip
         chmod +x $coinnamed $coinnamecli
         echo "Node upgraded for $i..."
