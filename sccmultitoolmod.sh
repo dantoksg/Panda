@@ -255,7 +255,7 @@ case $start in
     sleep 15
     cd /home/$alias/.local/bin
     cp /root/stakecube-daemon-U16-U18.zip /home/$alias/.local/bin/
-    unzip ${binaryname}.zip
+    unzip -o ${binaryname}.zip
     rm ${binaryname}.zip
     chmod +x $coinnamed $coinnamecli
     systemctl start $alias
