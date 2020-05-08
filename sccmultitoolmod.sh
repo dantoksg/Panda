@@ -8,6 +8,7 @@ ticker=SCC
 coindir=StakeCubeCore
 binaries='https://github.com/stakecube/SCC-multitool/releases/download/1.0.0/stakecube-daemon-U16-U18.zip'
 snapshot='https://github.com/stakecube/SCC-multitool/releases/download/1.0.0/bootstrap.zip'
+binaryname=stakecube-daemon-U16-U18
 port=40000
 rpcport=39999
 currentVersion=1000002
@@ -42,6 +43,7 @@ echo "1  - Newserver 2GB swap. REQUIRES RESTART"
 echo "2  - Newserver 8GB swap with Contabo support. REQUIRES RESTART"
 echo "3  - Wallet update (single ${ticker} node / installed with multitool)"
 echo "31 - Wallet update (all ${ticker} nodes / universal)"
+echo "32 - Wallet update (Single Node/PandaMod)"
 echo "4  - Chain repair"
 echo "41 - Chain repair (all ${ticker} nodes)"
 echo "42 - Chain repair (Custom based on /root/repair.txt)"
@@ -235,6 +237,30 @@ case $start in
     echo ""
     echo -e "${RED}Please restart now your MN(s) from your controller wallet!!!${NC}"
     echo -e "When done and protocol ${currentProto} is displayed, restart the masternode with tool ${GREEN}7 - Masternode restart${NC}"
+    exit
+    ;;
+    32) echo "Wallet Update Individual"
+    echo "Checking home directory (~/home) for MN alias's..."       
+    echo "Following installed MN's found:"
+    echo -e ${GREEN}
+    ls /home
+    echo -e ${NC}
+    echo "Please enter MN alias name and press [ENTER]:"
+    read -p "> " alias
+    echo "Start upgrade process..."
+    echo "Using: ${snapshot}"
+    echo "Stopping $alias"
+    systemctl stop $alias
+    echo "Pausing script to ensure $alias has stopped"
+    sleep 15
+    cd /home/$alias/.local/bin
+    cp /root/stakecube-daemon-U16-U18.zip /home/$alias/.local/bin/
+    unzip ${binaryname}.zip
+    rm ${binaryname}.zip
+    chmod +x $coinnamed $coinnamecli
+    systemctl start $alias
+    echo "Daemon updated for $alias"
+    echo "Please wait for a while.. and then use $alias getinfo to check block height against explorer"
     exit
     ;;
     4) echo "Starting chain repair tool"
