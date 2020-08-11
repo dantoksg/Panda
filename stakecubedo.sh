@@ -23,7 +23,7 @@ TICKER='SCC'
 # Binary base name.
 BIN_BASE='stakecube'
 # Directory.
-DIRECTORY='.StakeCubeCore'
+DIRECTORY='.StakeCubeCoin'
 # Conf File.
 CONF='stakecubecoin.conf'
 # Port.
