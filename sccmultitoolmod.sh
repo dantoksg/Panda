@@ -6,13 +6,13 @@ coinnamed=stakecubed
 coinnamecli=stakecube-cli
 ticker=SCC
 coindir=StakeCubeCore
-binaries='https://github.com/stakecube/SCC-multitool/releases/download/1.0.0/stakecube-daemon-U16-U18.zip'
-snapshot='https://github.com/stakecube/SCC-multitool/releases/download/1.0.0/bootstrap.zip'
+binaries='https://github.com/stakecube/StakeCubeCoin/releases/download/v2.1.0/multitool-binaries.zip'
+snapshot='https://github.com/stakecube/StakeCubeCoin/releases/download/v2.1.0/bootstrap.zip'
 binaryname=stakecube-daemon-U16-U18
 port=40000
 rpcport=39999
-currentVersion=1000002
-currentProto=70812
+currentVersion=2010000
+currentProto=70815
 discord='https://discord.gg/xxjZzJE'
  
 apt-get install pwgen -y &>/dev/null
